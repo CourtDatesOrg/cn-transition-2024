@@ -1,0 +1,14 @@
+# Timer for daily download of AOC court dates file from Buncombe County ftp server to S3
+#
+
+[Unit]
+Description=Triggers script to download AOC court dates file from Buncombe County ftp server to S3
+Requires=aocGet.service
+
+[Timer]
+Unit=aocGet.service
+OnCalendar=*-*-* 09:45:50
+
+[Install]
+WantedBy=timers.target
+

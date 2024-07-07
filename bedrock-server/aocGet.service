@@ -1,0 +1,14 @@
+# This service unit is for running the daily AOC file download to S3
+#
+[Unit]
+Description=Runs a daily job to download future court dates to S3
+Wants=aocGet.timer
+
+[Service]
+Type=oneshot
+Environment=PYTHONPATH=/home/ec2-user/bedrock2/src/etl/lambdas/etl_task_file_copy/package
+ExecStart=python3 /home/ec2-user/bedrock2/src/etl/lambdas/etl_task_file_copy/etl_filecopy.py /home/ec2-user/bedrock2/src/etl/lambdas/etl_task_file_copy/aoc.json
+
+[Install]
+WantedBy=multi-user.target
+
