@@ -12,10 +12,3 @@ The transitional system consists of 3 parts:
 3. A new version of the court reminders system that looks up court dates in that database rather than on an AOC website (still in the [court-notifications repository](https://github.com/CodeWithAsheville/court-notifications))
 
 
-
-sudo systemctl daemon-reload
-sudo systemctl start aocGet.service
-sudo systemctl status aocGet.service
-sudo journalctl -S today -f -u aocGet.service
-
-chmod 644 both
