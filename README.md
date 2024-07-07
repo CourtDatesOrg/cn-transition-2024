@@ -12,3 +12,6 @@ The transitional system consists of 3 parts:
 3. A new version of the court reminders system that looks up court dates in that database rather than on an AOC website (still in the [court-notifications repository](https://github.com/CodeWithAsheville/court-notifications))
 
 
+
+NOTE: I think I’m going to keep the courtdates.org S3 bucket as our primary state machine, even though we’re using courttexts as the staging area for AOC files.
+

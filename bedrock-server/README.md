@@ -15,3 +15,4 @@ Now clone [this repository](https://github.com/CourtDatesOrg/cn-transition-2024)
 ## Step 3 Prepare the Bedrock application
 
 ## Step 4 Set up the systemd timer to run the FTP job
+See [this article](https://opensource.com/article/20/7/systemd-timers) on using systemd timers.
