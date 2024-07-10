@@ -1,29 +1,27 @@
-INSTANCE = <UNIQUE INSTANCE STRING LIKE ej-test-0: lowercase alphanumeric characters and hyphens only>
+INSTANCE = ecourts
 region = "us-east-1"
 statebucket = "courtdates.org"
 account = 533267317049
 
 # The next four variables provide information on the VPC, subnets and security
 # groups that we will use. They can be created in the network folder and
-# the resulting output copied here, or you can use existing resources.
+# the resulting output (in cn_network_variables.generated) copied here,
+# or you can use existing resources.
 
-CN_VPC_ID = "vpc-0cf0dd15609288ed5"
-DB_SUBNET_GROUP_NAME =  "public-db-subnet-group-"
-CN_SECURITY_GROUP_IDS = ["sg-02bc139cf1ef3f657"]
-CN_PRIVATE_SUBNETS = ["subnet-09381f1b369453e2b","subnet-0ee9467df4bed778d"]
+CN_VPC_ID="vpc-0d90dfacc2aaadace"
+DB_SUBNET_GROUP_NAME="public-db-subnet-group-ecourts"
+CN_SECURITY_GROUP_IDS=["sg-0cf05176852141cf4"]
+CN_PRIVATE_SUBNETS=["subnet-031cf2f73a66416e6","subnet-08d1b79718da574db"]
 
-
+# Database Password - this is the password that will be used to create the main user
+# of the court dates database. Note that the password may be recorded in logs and will
+# be stored in the infrastructure state file. For better security, change the password
+# directly using database commands.
+CN_DB_PASSWORD = default-courttexts-password
 
 # Maximum percentage change in court dates file length between uploads
-MAX_PERCENT_CHANGE = 0.2
-FILE_REGEXP = "datafiles/BuncombeCriminal\\-[0-9]{8}_[0-9]{6}\\.txt"
-
-# The next variable is the database host name built in the db directory,
-# e.g., ct-db-ej-test-0.cd9h9tveyb58.us-east-1.rds.amazonaws.com.
-# If using the database built as part of this instance, you can copy from
-# ./db/make_variables (but do not include the :5432).
-BEDROCK_DB_HOST = ""
+MAX_PERCENT_CHANGE = -0.2
+FILE_REGEXP = "datafiles/BuncombeCriminal\\-[0-9]{8}\\.txt"
 
 # Do not edit or delete the next line
 reverse = $(if $(1),$(call reverse,$(wordlist 2,$(words $(1)),$(1)))) $(firstword $(1))
-

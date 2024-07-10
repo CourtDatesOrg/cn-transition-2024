@@ -10,7 +10,7 @@ resource "aws_db_instance" "cn-db-$$INSTANCE$$" {
   engine_version       = "13.14"
   instance_class       = "db.t3.micro"
   username             = "cn"
-  password             = "test-courttexts"
+  password             = "$$CN_DB_PASSWORD$$"
   parameter_group_name = "default.postgres13"
   skip_final_snapshot  = true
   publicly_accessible  = true

@@ -17,6 +17,8 @@ Now replace the four network variables in ```make_variables``` with those from `
 ## Step 1 - Create the Database and Store Credentials
 Now create the database that will be used to store court dates provided through the daily AOC text file.
 
+If you wish, you may set a different password for the main user in the ```make_variables``` file, or you can change it afterward in the database directly.
+
 ```sh
 cd ./1-db
 make init
@@ -28,7 +30,7 @@ The database credentials and connection information should be stored as a secret
 
 - host (get this from ```./1-db/make_variables.generated - do not include the port number)
 - username (set to ```cn```)
-- password (default is ```test-courttexts```, but that should be changed and the actual value used here)
+- password (change to actual value of the password for the ```cn``` user)
 - type (set to ```postgresql```)
 - port (set to ```5432```)
 - database (set to ```cn```)
