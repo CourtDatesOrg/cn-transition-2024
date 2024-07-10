@@ -1,2 +1,6 @@
 make_variables
+make_variables.generated
+cn_network_variables.generated
 *.instance
+build
+
