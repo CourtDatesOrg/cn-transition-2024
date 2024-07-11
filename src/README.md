@@ -36,5 +36,26 @@ The database credentials and connection information should be stored as a secret
 - database (set to ```cn```)
 - description (set to "Court dates database")
 
+## Step 2 - Create the ETL Server
+The ETL server is an EC2 instance that runs a script to download the daily file from Buncombe County servers to an S3 bucket. Ideally this would run as a Lambda, but letting a Lambda interact with the internet requires a NAT Gateway, which is a significant expense.
+
+The script is part of a City of Asheville system called Bedrock which manages a catalog of data assets and also provides simple data movement capabilities, including SFTP.
+
+### Step 2a - Create and configure an EC2 instance
+Create an EC2 server with the userdata from [userdata.sh](userdata.sh). Attach an elastic IP to it that has been authorized for access to the Buncombe County SFTP server (currently 52.87.48.111).
+
+### Step 2b - Set up Github access and clone needed directories
+Run the following command
+```sh
+ssh-keygen -t ed25519 -C
+```
+Copy the contents of the generated ```.pub``` file in the ```~/.ssh``` directory to Github (navigate to account settings, then to [```SSH and GPG Keys```](https://github.com/settings/keys), and create a new SSH key.
+
+Now clone [this repository](https://github.com/CourtDatesOrg/cn-transition-2024) and the [Bedrock repository](https://github.com/DeepWeave/bedrock2).
+
+### Step 2c - Prepare the Bedrock application
+
+### Step 2b - Set up the systemd timer to run the FTP job
+See [this article](https://opensource.com/article/20/7/systemd-timers) on using systemd timers.
 
 
