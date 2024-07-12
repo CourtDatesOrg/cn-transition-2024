@@ -47,27 +47,14 @@ Log into the server using ssh and run the following commands:
 
 ```
 sudo yum update -y
-sudo yum install -y make
-sudo yum install -y git
-sudo yum install -y python311 # Get a newer python3 version
+sudo yum install -y make git python311 # Get a newer python3 version
 sudo ln -sf /usr/bin/python3.11 /usr/bin/python3 # and make it the default
-sudo python3 -m ensurepip
+sudo python3 -m ensurepip # Ignore the warning
 
-
+# Do we actually need this? Might not for now, but later when we bring the DB load in, we likely will
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
 source ~/.bashrc
 nvm install 20
-
-
-#mkdir -p ~/miniconda3
-#wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O ~/miniconda3/miniconda.sh
-#bash ~/miniconda3/miniconda.sh -b -u -p ~/miniconda3
-#rm -rf ~/miniconda3/miniconda.sh
-#~/miniconda3/bin/conda init bash
-#source ~/.bashrc
-#conda create -n aoc python=3.12 -y
-#echo "conda activate aoc" >> ~/.bashrc
-#source ~/.bashrc # Or just run "conda activate aoc"
 ```
 
 ### Step 2b - Set up Github access and clone needed directories
