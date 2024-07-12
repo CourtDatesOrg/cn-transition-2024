@@ -88,6 +88,24 @@ make package
 ```
 
 ### Step 2b - Set up the systemd timer to run the FTP job
-See [this article](https://opensource.com/article/20/7/systemd-timers) on using systemd timers.
+Now install the timer that will run the daily ftp job. Do the following step. Note that the ```systemctl start``` command will run the FTP job once. From that point, it will be run at the time specified in the timer file.
+
+```
+sudo cp ~/cn-transition-2024/src/2-etl-server/aocGet.service /etc/systemd/system
+sudo cp ~/cn-transition-2024/src/2-etl-server/aocGet.timer /etc/systemd/system
+sudo chmod 644 /etc/systemd/system/aocGet*
+sudo systemctl daemon-reload
+sudo systemctl start aocGet.service
+sudo systemctl status aocGet.service
+```
+
+To view details on the daily runs you can run the following command:
+
+```
+sudo journalctl -S today -f -u aocGet.service
+```
+
+The ```-S``` option can be followed by a date and time of the format "2012-10-30 18:17:16". If the date is omitted, today is assumed. If the time is omitted, "00:00:00" is assumed. For more information on systemd timers, see [this article](https://opensource.com/article/20/7/systemd-timers).
+
 
 

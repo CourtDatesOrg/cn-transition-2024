@@ -1,0 +1,26 @@
+{
+    "ETLJob": {
+      "etl_tasks": [
+        {
+          "type": "file_copy",
+          "active": true,
+          "source_location": {
+            "path": "./test/criminal/",
+            "filename": "/BuncombeCriminal\\-[0-9]{8}_[0-9]{6}\\.txt/",
+            "config": {
+              "sort": "time",
+              "pick": -1,
+              "max_age": 23
+            },
+            "connection": "bc-sftp"
+          },
+          "target_location": {
+            "path": "datafiles/",
+            "filename": "BuncombeCriminal-${YYYY}${MM}${DD}.txt",
+            "connection": "courttexts"
+          }
+        }
+      ]
+    },
+    "TaskIndex": 0
+  }
