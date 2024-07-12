@@ -41,8 +41,34 @@ The ETL server is an EC2 instance that runs a script to download the daily file 
 
 The script is part of a City of Asheville system called Bedrock which manages a catalog of data assets and also provides simple data movement capabilities, including SFTP.
 
-### Step 2a - Create and configure an EC2 instance
-Create an EC2 server with the userdata from [userdata.sh](userdata.sh). Attach an elastic IP to it that has been authorized for access to the Buncombe County SFTP server (currently 52.87.48.111).
+Begin by creating an EC2 server running Amazon Linux (the smallest instance is fine). Attach an elastic IP to it that has been authorized for access to the Buncombe County SFTP server (currently 52.87.48.111).
+
+Log into the server using ssh and run the following commands:
+
+```
+sudo yum update -y
+sudo yum install -y make
+sudo yum install -y git
+sudo yum install -y python311 # Get a newer python3 version
+sudo ln -sf /usr/bin/python3.11 /usr/bin/python3 # and make it the default
+sudo python3 -m ensurepip
+
+
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
+source ~/.bashrc
+nvm install 20
+
+
+#mkdir -p ~/miniconda3
+#wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O ~/miniconda3/miniconda.sh
+#bash ~/miniconda3/miniconda.sh -b -u -p ~/miniconda3
+#rm -rf ~/miniconda3/miniconda.sh
+#~/miniconda3/bin/conda init bash
+#source ~/.bashrc
+#conda create -n aoc python=3.12 -y
+#echo "conda activate aoc" >> ~/.bashrc
+#source ~/.bashrc # Or just run "conda activate aoc"
+```
 
 ### Step 2b - Set up Github access and clone needed directories
 Run the following command
