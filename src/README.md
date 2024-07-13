@@ -41,17 +41,42 @@ The database credentials and connection information should be stored as a secret
 - database (set to ```cn```)
 - description (set to "Court dates database")
 
-## Step 3 - Create the ETL Server
+## Step 3 - Create the Data-Loader Lambda
+Now create the lambda that will be triggered whenever a file is added to the S3 bucket to process the court dates into the database.
+
+```sh
+cd ./3-load-data-lambda
+make init
+make apply-y
+cd ..
+```
+
+This will create the lambda and also add the notification to the s3 bucket.
+
+__Important__: Note that the ```courttexts``` bucket used to stage files from the Buncombe County SFTP server is hardcoded in the [configuration](./3-load-data-lambda/lambda-load-data/deploy/config.tf) and in the ```aoc.json``` for the ETL server via the ```connection``` parameter for the target location. That parameter is the name of SecretsManager secret containing the following information:
+
+```js
+{
+    type:       s3
+    s3_bucket   courttexts
+}
+```
+
+In the future this should be parameterized.
+
+## Step 4 - Create the ETL Server
 The ETL server is an EC2 instance that runs a script to download the daily file from Buncombe County servers to an S3 bucket. Ideally this would run as a Lambda, but letting a Lambda interact with the internet requires a NAT Gateway, which is a significant expense.
 
 The script is part of a City of Asheville system called Bedrock which manages a catalog of data assets and also provides simple data movement capabilities, including SFTP.
 
-### Step 3a - Create the EC2 Server
+### Step 4a - Create the EC2 Server
 Begin by creating an EC2 server running Amazon Linux (the smallest instance is fine). The production instance is named ```cn-etl-ecourts```.
 
 Attach an elastic IP to it that has been authorized for access to the Buncombe County SFTP server (currently 52.87.48.111).
 
-Log into the server using ssh and run the following commands:
+Next, create a role with the ```SecretsManagerReadWrite``` and ```AmazonS3FullAccess``` roles. The production instance is named ```cn-etl-ecourts-agent```. In the EC2 console go to ```Actions->Security->Modify IAM Role``` and associate the role with the EC2 server.
+
+Now log into the server using ssh and run the following commands:
 
 ```
 sudo yum update -y
@@ -65,7 +90,7 @@ source ~/.bashrc
 nvm install 20
 ```
 
-### Step 3b - Set up Github access and clone needed directories
+### Step 4b - Set up Github access and clone needed directories
 Run the following command, replacing with the appropriate email address.
 ```sh
 ssh-keygen -t ed25519 -C "your_email@example.com"
@@ -74,13 +99,14 @@ Copy the contents of the generated ```.pub``` file in the ```~/.ssh``` directory
 
 Now clone [this repository](https://github.com/CourtDatesOrg/cn-transition-2024) and the [Bedrock repository](https://github.com/DeepWeave/bedrock2).
 
-### Step 3c - Prepare the Bedrock application
+### Step 4c - Prepare the Bedrock application
 
 We are only using a portion of the Bedrock application for now, so we don't need to do the full set up, just the following steps:
 
 ```
 cd ~/bedrock2/src
-cp ~/cn-transition-2024/src/3-etl-server/bedrock_make_variables make_variables
+cp ~/cn-transition-2024/src/4-etl-server/bedrock_make_variables make_variables
+cp ~/cn-transition-2024/src/4-etl-server/aoc.json etl/lambdas/etl_task_file_copy
 ```
 
 The instance in that file is set to the production name - change it if you are creating a separate instance. Next:
@@ -90,12 +116,12 @@ cd ~/bedrock2/src/etl/lambdas/etl_task_file_copy
 make package
 ```
 
-### Step 3d - Set up the systemd timer to run the FTP job
+### Step 4d - Set up the systemd timer to run the FTP job
 Now install the timer that will run the daily ftp job. Do the following step. Note that the ```systemctl start``` command will run the FTP job once. From that point, it will be run at the time specified in the timer file.
 
 ```
-sudo cp ~/cn-transition-2024/src/3-etl-server/aocGet.service /etc/systemd/system
-sudo cp ~/cn-transition-2024/src/3-etl-server/aocGet.timer /etc/systemd/system
+sudo cp ~/cn-transition-2024/src/4-etl-server/aocGet.service /etc/systemd/system
+sudo cp ~/cn-transition-2024/src/4-etl-server/aocGet.timer /etc/systemd/system
 sudo chmod 644 /etc/systemd/system/aocGet*
 sudo systemctl daemon-reload
 sudo systemctl start aocGet.service
