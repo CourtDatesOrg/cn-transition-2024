@@ -3,4 +3,4 @@ make_variables.generated
 cn_network_variables.generated
 *.instance
 build
-
+node_modules
