@@ -16,7 +16,7 @@ make apply-y
 cd ..
 ```
 
-Now replace the four network variables in ```make_variables``` with those from ```./0-network/cn_network_variables.generated```.
+Now replace the four network variables in ```make_variables``` with those from ```./1-network/cn_network_variables.generated```.
 
 ## Step 2 - Create the Database and Store Credentials
 Now create the database that will be used to store court dates provided through the daily AOC text file.
@@ -32,7 +32,7 @@ cd ..
 
 The database credentials and connection information should be stored as a secret in AWS Secrets Manager. In the AWS console, navigate to [Secrets Manager](https://us-east-1.console.aws.amazon.com/secretsmanager/listsecrets?region=us-east-1) and create a new secret named ```court-dates-database```. The secret type should be "Other type of secret" and it should include the following key/value pairs:
 
-- host (get this from ```./1-db/make_variables.generated - do not include the port number)
+- host (get this from ```./2-db/make_variables.generated - do not include the port number)
 - username (set to ```cn```)
 - password (change to actual value of the password for the ```cn``` user)
 - type (set to ```postgresql```)
@@ -91,8 +91,8 @@ make package
 Now install the timer that will run the daily ftp job. Do the following step. Note that the ```systemctl start``` command will run the FTP job once. From that point, it will be run at the time specified in the timer file.
 
 ```
-sudo cp ~/cn-transition-2024/src/2-etl-server/aocGet.service /etc/systemd/system
-sudo cp ~/cn-transition-2024/src/2-etl-server/aocGet.timer /etc/systemd/system
+sudo cp ~/cn-transition-2024/src/3-etl-server/aocGet.service /etc/systemd/system
+sudo cp ~/cn-transition-2024/src/3-etl-server/aocGet.timer /etc/systemd/system
 sudo chmod 644 /etc/systemd/system/aocGet*
 sudo systemctl daemon-reload
 sudo systemctl start aocGet.service
