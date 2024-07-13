@@ -83,7 +83,7 @@ cd ~/bedrock2/src
 cp ~/cn-transition-2024/src/3-etl-server/bedrock_make_variables make_variables
 ```
 
-Now edit the first line, deleting everything after "INSTANCE = " replacing it with a string that will be used in naming all the AWS infrastructure that Bedrock will create (which is none at the moment, but that will likely change). It should be different from the name you used in Step 0 above, and should be different from the production value, unless you are creating the production infrastructure. Next:
+The instance in that file is set to the production name - change it if you are creating a separate instance. Next:
 
 ```
 cd ~/bedrock2/src/etl/lambdas/etl_task_file_copy
