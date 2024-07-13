@@ -1,6 +1,6 @@
 # Building the Infrastructure for Court Reminders - eCourts Edition
 
-## Step 0 - Create the make_variables file
+## Step 1 - Create the make_variables file
 
 Before beginning, clone this repository and navigate to it. Next, copy [make_variables.sample](./make_variables.sample) to ```make_variables``` and set ```INSTANCE``` to a value that will be used to create unique infrastructure names. The ```INSTANCE``` name should consist of lowercase alphanumeric characters and hyphens only.
 
@@ -10,7 +10,7 @@ Note that you will need to have ```make``` and ```terraform``` installed on your
 If you are not using existing resources, build the network resources, as follows:
 
 ```sh
-cd ./0-network
+cd ./1-network
 make init
 make apply-y
 cd ..
@@ -24,7 +24,7 @@ Now create the database that will be used to store court dates provided through 
 If you wish, you may set a different password for the main user in the ```make_variables``` file, or you can change it afterward in the database directly.
 
 ```sh
-cd ./1-db
+cd ./2-db
 make init
 make apply-y
 cd ..
@@ -87,7 +87,7 @@ cd ~/bedrock2/src/etl/lambdas/etl_task_file_copy
 make package
 ```
 
-### Step 2b - Set up the systemd timer to run the FTP job
+### Step 3d - Set up the systemd timer to run the FTP job
 Now install the timer that will run the daily ftp job. Do the following step. Note that the ```systemctl start``` command will run the FTP job once. From that point, it will be run at the time specified in the timer file.
 
 ```
