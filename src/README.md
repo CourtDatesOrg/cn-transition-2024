@@ -47,7 +47,9 @@ The ETL server is an EC2 instance that runs a script to download the daily file 
 The script is part of a City of Asheville system called Bedrock which manages a catalog of data assets and also provides simple data movement capabilities, including SFTP.
 
 ### Step 3a - Create the EC2 Server
-Begin by creating an EC2 server running Amazon Linux (the smallest instance is fine). Attach an elastic IP to it that has been authorized for access to the Buncombe County SFTP server (currently 52.87.48.111).
+Begin by creating an EC2 server running Amazon Linux (the smallest instance is fine). The production instance is named ```cn-etl-ecourts```.
+
+Attach an elastic IP to it that has been authorized for access to the Buncombe County SFTP server (currently 52.87.48.111).
 
 Log into the server using ssh and run the following commands:
 
@@ -64,9 +66,9 @@ nvm install 20
 ```
 
 ### Step 3b - Set up Github access and clone needed directories
-Run the following command
+Run the following command, replacing with the appropriate email address.
 ```sh
-ssh-keygen -t ed25519 -C
+ssh-keygen -t ed25519 -C "your_email@example.com"
 ```
 Copy the contents of the generated ```.pub``` file in the ```~/.ssh``` directory to Github (navigate to account settings, then to [```SSH and GPG Keys```](https://github.com/settings/keys), and create a new SSH key.
 
@@ -78,7 +80,7 @@ We are only using a portion of the Bedrock application for now, so we don't need
 
 ```
 cd ~/bedrock2/src
-cp make_variables.sample make_variables
+cp ~/cn-transition-2024/src/3-etl-server/bedrock_make_variables make_variables
 ```
 
 Now edit the first line, deleting everything after "INSTANCE = " replacing it with a string that will be used in naming all the AWS infrastructure that Bedrock will create (which is none at the moment, but that will likely change). It should be different from the name you used in Step 0 above, and should be different from the production value, unless you are creating the production infrastructure. Next:

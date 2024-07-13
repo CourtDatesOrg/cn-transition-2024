@@ -1,0 +1,39 @@
+INSTANCE = cn-etl-ecourts
+region = "us-east-1"
+statebucket = "courtdates.org"
+account = 533267317049
+EMAIL_SENDER = "asheville_fake@ashevillenc.gov"
+EMAIL_RECIPIENT = "dummy@ashevillenc.gov"
+build_mode = std # Set to sam to build using SAM
+
+# The next four variables provide information on the VPC, subnets and security
+# groups that Bedrock will use. They can be created in the network folder and
+# the resulting output copied here, or you can use existing resources.
+BEDROCK_VPC_ID = "vpc-0cf0dd15609288ed5"
+DB_SUBNET_GROUP_NAME =  "public-db-subnet-group-"
+BEDROCK_SECURITY_GROUP_IDS = ["sg-02bc139cf1ef3f657"]
+BEDROCK_PRIVATE_SUBNETS = ["subnet-09381f1b369453e2b","subnet-0ee9467df4bed778d"]
+
+# This section is for database connections.
+# If using the database built as part of this instance, you can copy from
+# ./db/make_variables (but do not include the :5432).
+# Leave these blank to use the hard-coded production database.
+BEDROCK_DB_HOST=
+BEDROCK_DB_USER=
+BEDROCK_DB_PASSWORD=
+BEDROCK_DB_NAME=
+
+# Unlike the other DB variables, always include a schema name.
+BEDROCK_DB_SCHEMA="bedrock"
+
+# This is used in the API. The value can be read from 
+# src/etl/state_machine_variables.generated 
+# after creating the step function.
+STATE_MACHINE_ARN = "arn:aws:xxx"
+
+# This is the directory (relative to the root of the project) where the data files are stored.
+data_directory = '../managed-data-assets/data';
+
+# Do not edit or delete the next line
+reverse = $(if $(1),$(call reverse,$(wordlist 2,$(words $(1)),$(1)))) $(firstword $(1))
+
