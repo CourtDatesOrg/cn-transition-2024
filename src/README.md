@@ -11,8 +11,8 @@ If you are not using existing resources, build the network resources, as follows
 
 ```sh
 cd ./1-network
-make init
-make apply-y
+make init       # Initializes the back end for storing state
+make apply-y    # Creates the network infrastructure
 cd ..
 ```
 
@@ -25,8 +25,9 @@ If you wish, you may set a different password for the main user in the ```make_v
 
 ```sh
 cd ./2-db
-make init
-make apply-y
+make init    # Initializes the back end for storing state
+make apply-y # Creates the RDS instance
+make db      # Initializes the schema and tables
 cd ..
 ```
 

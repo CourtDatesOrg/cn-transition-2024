@@ -5,10 +5,11 @@ lambda_handler = async function (event, context) {
   let sql = fs.readFileSync('./createNewCourtDatesDB.sql').toString();
   const host = process.env.CN_DB_HOST_ENDPOINT.split(':')[0];
   console.log('The host is ', host);
+  console.log('Password is ', process.env.CN_DB_PASSWORD);
   const client = new Client({
     host: host,
     user: 'cn',
-    password: 'test-courttexts',
+    password: process.env.CN_DB_PASSWORD,
     database: 'cn',
     max: 10,
     idleTimeoutMillis: 10000,

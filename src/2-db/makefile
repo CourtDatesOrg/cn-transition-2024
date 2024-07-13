@@ -31,7 +31,7 @@ destroy: $(dirs)
 db:
 	npm install
 	echo $(CN_DB_HOST_ENDPOINT)
-	CN_DB_HOST_ENDPOINT=$(CN_DB_HOST_ENDPOINT) node create_db.js
+	CN_DB_HOST_ENDPOINT=$(CN_DB_HOST_ENDPOINT) CN_DB_PASSWORD=$(CN_DB_PASSWORD) node create_db.js
 
 clean:
 	rm -f *.instance
