@@ -149,7 +149,7 @@ exports.lambda_handler = async function x(event, context) {
 
     try {
         let query = `
-            INSERT INTO cn.criminal_dates_staging (case_number, case_type, citation_number, calendar_date, calendar_session, 
+            INSERT INTO cn.criminal_dates_staging (case_number, case_type, citation_number, calendar_date, calendar_session, courtroom,
             defendant_name, defendant_race, defendant_sex, offense_code, offense_description, officer_witness_type, 
             officer_agency, officer_number, officer_name, officer_city, court_type, ethnicity)
             VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17)
@@ -158,7 +158,8 @@ exports.lambda_handler = async function x(event, context) {
             case_type = EXCLUDED.case_type,
             citation_number = EXCLUDED.citation_number,
             calendar_date = EXCLUDED.calendar_date, 
-            calendar_session = EXCLUDED.calendar_session, 
+            calendar_session = EXCLUDED.calendar_session,
+            courtroom = EXCLUDED.courtroom,
             defendant_name = EXCLUDED.defendant_name, 
             defendant_race = EXCLUDED.defendant_race, 
             defendant_sex = EXCLUDED.defendant_sex, 
@@ -188,6 +189,7 @@ exports.lambda_handler = async function x(event, context) {
                         record.citation_number,
                         record.calendar_date,
                         record.calendar_session,
+                        record.courtroom,
                         record.defendant_name,
                         record.defendant_race,
                         record.defendant_sex,
