@@ -152,7 +152,7 @@ exports.lambda_handler = async function x(event, context) {
             INSERT INTO cn.criminal_dates_staging (case_number, case_type, citation_number, calendar_date, calendar_session, courtroom,
             defendant_name, defendant_race, defendant_sex, offense_code, offense_description, officer_witness_type, 
             officer_agency, officer_number, officer_name, officer_city, court_type, ethnicity)
-            VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17)
+            VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18)
             ON CONFLICT (case_number)
             DO UPDATE SET
             case_type = EXCLUDED.case_type,
