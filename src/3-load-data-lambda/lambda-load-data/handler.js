@@ -153,7 +153,7 @@ exports.lambda_handler = async function x(event, context) {
             defendant_name, defendant_race, defendant_sex, offense_code, offense_description, officer_witness_type, 
             officer_agency, officer_number, officer_name, officer_city, court_type, ethnicity)
             VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18)
-            ON CONFLICT (case_number)
+            ON CONFLICT (case_number,case_type,courtroom,calendar_date)
             DO UPDATE SET
             case_type = EXCLUDED.case_type,
             citation_number = EXCLUDED.citation_number,
@@ -169,7 +169,7 @@ exports.lambda_handler = async function x(event, context) {
             officer_agency = EXCLUDED.officer_agency, 
             officer_number = EXCLUDED.officer_number, 
             officer_name = EXCLUDED.officer_name, 
-            officer_city = EXCLUDED.officer_city, 
+            officer_city = 'CONFLICT-CASE', --EXCLUDED.officer_city, 
             court_type = EXCLUDED.court_type, 
             ethnicity = EXCLUDED.ethnicity;
         `;

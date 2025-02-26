@@ -29,7 +29,7 @@ CREATE TYPE cn.calendar_sessions AS ENUM (
 
 -- Guessing a bit at which might turn out to have nulls
 CREATE TABLE cn.criminal_dates (
-	case_number text PRIMARY KEY,
+	case_number text NOT NULL,
 	case_type cn.case_types NOT NULL,
 	citation_number text NULL,
 	calendar_date date NOT NULL,
@@ -46,11 +46,12 @@ CREATE TABLE cn.criminal_dates (
 	officer_name text NULL,
 	officer_city text NULL,
 	court_type text NULL,
-	ethnicity text NULL
+	ethnicity text NULL,
+	PRIMARY KEY(case_number,case_type,courtroom,calendar_date)
 );
 
 CREATE TABLE cn.criminal_dates_staging (LIKE cn.criminal_dates);
-	ALTER TABLE cn.criminal_dates_staging ADD PRIMARY KEY (case_number);
+	ALTER TABLE cn.criminal_dates_staging ADD PRIMARY KEY (case_number,case_type,courtroom,calendar_date);
 
 CREATE TABLE cn.file_imports (
 	import_date timestamp without time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
