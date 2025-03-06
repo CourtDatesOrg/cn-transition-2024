@@ -16,6 +16,8 @@ resource "aws_lambda_function" "load_data_fn-$$INSTANCE$$" {
         variables = {
             MAX_PERCENT_CHANGE = $$MAX_PERCENT_CHANGE$$
             FILE_REGEXP = $$FILE_REGEXP$$
+            NOTIFY_EMAIL = $$NOTIFY_EMAIL$$
+            SYSTEM_EMAIL = $$SYSTEM_EMAIL$$
         }
     }
 }

@@ -22,6 +22,8 @@ CN_DB_PASSWORD = default-courttexts-password
 # Maximum percentage change in court dates file length between uploads
 MAX_PERCENT_CHANGE = -0.2
 FILE_REGEXP = "datafiles/BuncombeCriminal\\-[0-9]{8}\\.txt"
+NOTIFY_EMAIL = "tbd@example.com"
+SYSTEM_EMAIL = "eric.jackson@courtdates.org"
 
 # Do not edit or delete the next line
 reverse = $(if $(1),$(call reverse,$(wordlist 2,$(words $(1)),$(1)))) $(firstword $(1))

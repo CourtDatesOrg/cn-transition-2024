@@ -1,4 +1,5 @@
 const pg = require('pg');
+const { ses_sendemail } = require('./ses_sendemail.js');
 
 const { GetObjectCommand, S3Client } = require('@aws-sdk/client-s3');
 const { SecretsManagerClient, GetSecretValueCommand } = require("@aws-sdk/client-secrets-manager");
@@ -76,6 +77,7 @@ exports.lambda_handler = async function x(event, context) {
     let pgClient = null;
     let bucket;
     let key;
+    let insertedRecordCount = -1;
     if ('Records' in event) {
         // If triggered by creation of an object in S3
         bucket = event.Records[0].s3.bucket.name;
@@ -235,17 +237,32 @@ exports.lambda_handler = async function x(event, context) {
                 FROM cn.criminal_dates_staging;
             `;
             console.log('Now copy the staging table over');
-            await pgClient.query(query);
+            const tres = await pgClient.query(query);
+            console.log(`Row count = ${tres[1].rowCount}`);
+            insertedRecordCount = tres[1].rowCount;
         }
         console.log('Now commit');
         await pgClient.query('COMMIT');
-
         pgClient.end();
+        await ses_sendemail(
+            [process.env.NOTIFY_EMAIL],
+            process.env.SYSTEM_EMAIL,
+            `<p>Successfully loaded ${insertedRecordCount} records</p>`,
+            `Successfully loaded ${insertedRecordCount} records`,
+            'Load Data Successful',
+        );
         console.log('Now done');
     } catch (err) {
         message = 'Error loading to the database: ' + err;
         statusCode = 500;
         console.error(message);
+        await ses_sendemail(
+            [process.env.NOTIFY_EMAIL],
+            process.env.SYSTEM_EMAIL,
+            `<p>Error loading data: ${message}</p>`,
+            `Error loading data: ${message}`,
+            'Load Data NOT Successful',
+        );
     }
     finally {
         pgClient.end();
