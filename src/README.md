@@ -76,7 +76,13 @@ Attach an elastic IP to it that has been authorized for access to the Buncombe C
 
 Next, create a role with the ```SecretsManagerReadWrite``` and ```AmazonS3FullAccess``` roles. The production instance is named ```cn-etl-ecourts-agent```. In the EC2 console go to ```Actions->Security->Modify IAM Role``` and associate the role with the EC2 server.
 
-Now log into the server using ssh and run the following commands:
+Now log into the server using ssh:
+```
+ssh -i /path/to/PEMFILE.pem EC2-ip-address -l ec2-user
+```
+(the .pem file is in the main ~/development/court-notifications directory).
+
+Now run the following commands:
 
 ```
 sudo yum update -y
