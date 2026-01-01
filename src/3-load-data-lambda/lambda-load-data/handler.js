@@ -134,6 +134,9 @@ exports.lambda_handler = async function x(event, context) {
             database: connection.database,
             max: 10,
             idleTimeoutMillis: 10000,
+            ssl: {
+                rejectUnauthorized: false,
+            },
           };
         console.log('Config is ', config);
         console.log('Now create the client');
