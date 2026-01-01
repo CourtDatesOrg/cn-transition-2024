@@ -21,14 +21,12 @@ async function getConnection(secretName) {
           VersionStage: "AWSCURRENT", // VersionStage defaults to AWSCURRENT if unspecified
         })
       );
-      console.log('Result from secret get is console.log(response.SecretString)')
     } catch (error) {
       console.log(error);
       // For a list of exceptions thrown, see
       // https://docs.aws.amazon.com/secretsmanager/latest/apireference/API_GetSecretValue.html
       throw error;
     }
-    console.log(response.SecretString)
     return JSON.parse(response.SecretString);
 }
 
@@ -125,7 +123,6 @@ exports.lambda_handler = async function x(event, context) {
     // PostgreSQL client setup
     try {
         const connection = await getConnection('court-dates-database');
-        console.log('Connection is ', connection);
         const config = {
             host: connection.host,
             port: connection.port,
@@ -138,7 +135,6 @@ exports.lambda_handler = async function x(event, context) {
                 rejectUnauthorized: false,
             },
           };
-        console.log('Config is ', config);
         console.log('Now create the client');
         pgClient = new pg.Client(config);
         pgClient.connect();
